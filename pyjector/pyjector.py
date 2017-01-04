@@ -270,7 +270,7 @@ class Pyjector(object):
         if known_responses:
             response = self._strip_response(response)
             if response in known_responses:
-                print known_responses[response]
+                print(known_responses[response])
                 return
             else:
                 raise CommandFailedError(
