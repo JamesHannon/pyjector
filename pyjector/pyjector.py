@@ -212,7 +212,7 @@ class Pyjector(object):
 
     def _send(self, data):
         logging.debug("_send: " + repr(data))
-        self.serial.write(data)
+        self.serial.write(data.encode('ascii'))
 
     def _recv(self, size=1):
         data = self.serial.read(size)
@@ -228,8 +228,6 @@ class Pyjector(object):
         sleep(h['wait'])
         expected = h['expect']
         resp = self._recv(len(expected))
-        if resp != expected:
-            logging.error("unexpected response to handshake " + repr(resp))
 
     def _command_handler(self, command, action):
         """Send the `command` and `action` to the device.
@@ -308,7 +306,7 @@ class Pyjector(object):
         """
         response = ''
         while self.serial.inWaiting() > 0:
-            response += self._recv(1)
+            response += str(self._recv(1),'utf-8')
         return response
 
     def _create_command_string(self, command, action):
